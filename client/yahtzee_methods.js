@@ -1,6 +1,7 @@
 score = 0;
 dice = [0, 0, 0, 0, 0];
 
+// Starts players score card over and reset the user interface
 function resetGame()
 {
     score = 0;
@@ -8,6 +9,7 @@ function resetGame()
     changeDisplay();
 }
 
+// Changes what is shown on screen based on information provided throughout the game
 function changeDisplay()
 {
     rollElement = document.getElementById("roll");
@@ -23,6 +25,7 @@ function changeDisplay()
 
 }
 
+// Randomly generates 5 numbers
 function roll() 
 { 
     for(j = 0; j < 5; ++j)
@@ -34,6 +37,7 @@ function roll()
     return dice;
 } 
 
+// Allows user to pick dice he/she wants to reroll
 function reRoll(number)
 {
     for(j = 4; j >= 0; --j)
@@ -47,6 +51,7 @@ function reRoll(number)
     changeDisplay();
 }
 
+// Sorts numbers rolled into an array that counts the number of dice per number 1-6.
 function sortNumbers(arrayNumbers)
 {
     sortedNumbers = [0,0,0,0,0,0];
@@ -59,6 +64,7 @@ function sortNumbers(arrayNumbers)
     return sortedNumbers; 
 }
 
+// Calculates score if player chooses to score values 1-6
 function topSection(number)
 {
     sortedNumbers = sortNumbers();
@@ -67,6 +73,7 @@ function topSection(number)
     return score;
 }
 
+// Check to see if user scored a full House, if true, 25 points.
 function fullHouse()
 { 
     sortedNumbers = sortNumbers();
@@ -86,6 +93,7 @@ function fullHouse()
     return score;
 } 
 
+// If three of a kind is true, add all dice to score
 function threeOfAKind() 
 { 
     sortedNumbers = sortNumbers();
@@ -103,6 +111,7 @@ function threeOfAKind()
     changeDisplay();
 } 
 
+// If four of a kind is true, add all dice to score
 function fourOfAKind() 
 { 
     sortedNumbers = sortNumbers();
@@ -116,6 +125,7 @@ function fourOfAKind()
     changeDisplay();
 }
 
+// If smallStraight is true, add 30 points
 function smallStraight() 
 { 
     sortedNumbers = sortNumbers();
@@ -132,6 +142,7 @@ function smallStraight()
     return score;
 }
 
+// If largeStraight is true, add 40 points
 function largeStraight()
 { 
     sortedNumbers = sortNumbers();
@@ -150,6 +161,7 @@ function largeStraight()
     return score;
 }
 
+// If yahtzee is true, add 50 points
 function yahtzee() 
 { 
     sortedNumbers = sortNumbers();
@@ -167,6 +179,7 @@ function yahtzee()
     return score;
 }
 
+// Adds all dice together and adds to score
 function chance() 
 {
     sortedNumbers = sortNumbers();
