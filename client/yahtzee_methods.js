@@ -1,27 +1,70 @@
 score = 0;
 dice = [0, 0, 0, 0, 0];
 user = "Guest";
-isFinished = false;
+isFinished = 0;
 //set to the ipaddress of the server
 ipaddress = "localhost";
 $.support.cors = true;
+
+function finishGame()
+{
+    isFinished = 1;
+    saveGame();
+}
+
+function getIncompleteGames()
+{
+    $.ajax({
+        type: "GET",
+        url: "http://" + ipaddress + ":61446/api/game/incomplete",
+        async: true,
+        cache: false,
+        crossDomain: true,
+        success: function(responseData) {
+            results = "";
+            responseData.forEach(function(element) {
+                results += "Date: " + element["date"] + "  User: " + element["user"] + "  Score: " + element["score"] + " Id: " + element["id"] + "\n";
+            });
+            alert(results);
+        },
+        error: function (responseData, textStatus, errorThrown) {
+            alert('POST failed');
+        }
+    });
+}
+
 function saveGame()
 {
-    $.post(
-        ipaddress+":61446/api/game/create",
-        { score: score, user: user, isFinished: isFinished },
-        function(data) {
-            alert("Response: " + data);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        async: true,
+        cache: false,
+        crossDomain: true,
+        url: "http://" + ipaddress+":61446/api/game/"+score+"/"+user+"/"+isFinished+"/0",
+        contentType: "application/json; charset=utf-8",
+        success: function(responseData) {
+            alert("Saved!\n" + "id: "+responseData["id"]+"\n score: " + responseData["score"] + "\n user: " + responseData["user"] + "\n Completed: "+ responseData["isFinished"]);
+        },
+        error: function (responseData, textStatus, errorThrown) {
+            alert('POST failed');
         }
-    );
+    });
 }
 
 function getGames()
 {
-    $.get({
-        url: ipaddress+":61446/api/game",
+    $.ajax({
+        type: "GET",
+        url: "http://" + ipaddress + ":61446/api/game",
+        async: true,
+        cache: false,
+        crossDomain: true,
         success: function(data) {
             alert( "Data Loaded: " + data );
+        },
+        error: function (responseData, textStatus, errorThrown) {
+            alert('POST failed');
         }
     });
 }

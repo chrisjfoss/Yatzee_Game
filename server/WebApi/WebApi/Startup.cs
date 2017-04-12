@@ -11,6 +11,7 @@ using Yahtzee.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace Yahtzee
 {
@@ -34,21 +35,23 @@ namespace Yahtzee
             services.AddDbContext<YahtzeeContext>(opt => opt.UseInMemoryDatabase());
 
             // Add framework services.
-            services.AddMvc();
-            
+            var corsBuilder = new CorsPolicyBuilder();
+            corsBuilder.AllowAnyHeader();
+            corsBuilder.AllowAnyMethod();
+            corsBuilder.AllowAnyOrigin();
+            corsBuilder.AllowCredentials();
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                    });
+                    corsBuilder.Build());
             });
 
             services.Configure<MvcOptions>(options =>
             {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
             });
+
+            services.AddMvc();
 
             services.AddScoped<IGameRepository, GameRepository>();
         }
@@ -58,10 +61,10 @@ namespace Yahtzee
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            
+            app.UseCors("AllowAll");
 
             app.UseMvc();
-
-            app.UseCors("AllowAll");
         }
     }
 }
