@@ -1,5 +1,30 @@
 score = 0;
 dice = [0, 0, 0, 0, 0];
+user = "Guest";
+isFinished = false;
+//set to the ipaddress of the server
+ipaddress = "localhost";
+$.support.cors = true;
+function saveGame()
+{
+    $.post(
+        ipaddress+":61446/api/game/create",
+        { score: score, user: user, isFinished: isFinished },
+        function(data) {
+            alert("Response: " + data);
+        }
+    );
+}
+
+function getGames()
+{
+    $.get({
+        url: ipaddress+":61446/api/game",
+        success: function(data) {
+            alert( "Data Loaded: " + data );
+        }
+    });
+}
 
 // Starts players score card over and reset the user interface
 function resetGame()
@@ -22,7 +47,6 @@ function changeDisplay()
     rollElement.innerHTML = string;
     scoreElement = document.getElementById("score");
     scoreElement.innerHTML = "Score: " + score;
-
 }
 
 // Randomly generates 5 numbers
