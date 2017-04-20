@@ -54,16 +54,37 @@ namespace Yahtzee.Controllers
             return _gameRepository.GetAll().Where(t => t.IsFinished == true);
         }
 
-        // POST api/values
         [HttpPost("{score}/{user}/{isFinished}/{id}")]
         [EnableCors("AllowAll")]
         public IActionResult Create(int score, string user, int isFinished, long id)
+        {
+            return Create(score, user, isFinished, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, id);
+        }
+
+        // POST api/values
+        [HttpPost("{score}/{user}/{isFinished}/{numberOfRolls}/{aces}/{twos}/{threes}/{fours}/{fives}/{sixes}/{threeOfAKind}/{fourOfAKind}/{fullHouse}/{smallStraight}/{largeStraight}/{yahtzee}/{chance}/{id}")]
+        [EnableCors("AllowAll")]
+        public IActionResult Create(int score, string user, int isFinished, int numberOfRolls, int aces, int twos, int threes, int fours, int fives, int sixes, int threeOfAKind, int fourOfAKind, int fullHouse, int smallStraight, int largeStraight, int yahtzee, int chance, long id)
         {
             Game game = new Game()
             {
                 Score = score,
                 User = user,
-                IsFinished = isFinished != 0
+                IsFinished = isFinished != 0,
+                NumberOfRolls = numberOfRolls,
+                Aces = aces,
+                Twos = twos,
+                Threes = threes,
+                Fours = fours,
+                Fives = fives,
+                Sixes = sixes,
+                ThreeOfAKind = threeOfAKind,
+                FourOfAKind = fourOfAKind,
+                FullHouse = fullHouse,
+                SmallStraight = smallStraight,
+                LargeStraight = largeStraight,
+                Yahtzee = yahtzee,
+                Chance = chance,
             };
 
             if(id != 0)
