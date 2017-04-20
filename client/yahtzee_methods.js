@@ -3,7 +3,7 @@ dice = [0, 0, 0, 0, 0];
 user = "Guest";
 isFinished = 0;
 //set to the ipaddress of the server
-ipaddress = "localhost";
+ipaddress = "10.31.55.80";
 $.support.cors = true;
 
 function finishGame()

@@ -78,8 +78,14 @@ namespace Yahtzee.Controllers
 
             return CreatedAtRoute("GetGame", new { id = game.Id }, game);
         }
+        // GET api/game/highscores/5
+        [HttpGet("highscores/{numberOfResults}")]
+        public IEnumerable<Game> GetHighScores(int numberOfResults)
+        {
+            return _gameRepository.GetAll().OrderByDescending(g => g.Score).Take(numberOfResults);
+        }
 
-        // PUT api/values/5
+        // PUT api/game/5
         [HttpPut("{id}")]
         [EnableCors("AllowAll")]
         public IActionResult Update(long id, [FromBody] Game game)
@@ -102,7 +108,7 @@ namespace Yahtzee.Controllers
             return new NoContentResult();
         }
 
-        // DELETE api/values/5
+        // DELETE api/game/5
         [HttpDelete("{id}")]
         [EnableCors("AllowAll")]
         public IActionResult Delete(long id)

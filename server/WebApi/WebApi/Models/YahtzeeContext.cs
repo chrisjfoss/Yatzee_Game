@@ -14,5 +14,12 @@ namespace Yahtzee.Models
         }
 
         public DbSet<Game> Games { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Game>()
+                .Property(b => b.Date)
+                .HasDefaultValue(DateTime.Now);
+        }
     }
 }
